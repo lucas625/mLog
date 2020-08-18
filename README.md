@@ -1,6 +1,6 @@
 # MLog
 
-A service that analyzes the log of the application [INSERT APPLICATION NAME HERE] and provides insights on how to increase sells.
+A service that analyzes the log of the [Robot Shop](https://github.com/instana/robot-shop) and provides insights on how to increase sells.
 This service is built based on a microservices architecture.
 
 ## Table OF Contents
