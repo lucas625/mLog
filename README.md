@@ -1,7 +1,8 @@
 # MLog
 
 A service that analyzes the log of the [Robot Shop](https://github.com/instana/robot-shop) and provides insights on how to increase sells.
-This service is built based on a microservices architecture.
+This service is being built based on a microservices architecture.
+This project will have the analysis of the **cart** and **shipping** services of the Robot Shop as its scope.
 
 ## Table OF Contents
 
