@@ -13,6 +13,7 @@ This project will have the analysis of the **cart** and **shipping** services of
   - [Requirements](#requirements)
   - [Installation](#installation)
     - [Robot Shop](#robot-shop)
+    - [Cart Log Analyzer](#cart-log-analyzer)
   - [Testing](#testing)
   - [Production](#production)
   - [Guides](#guides)
@@ -65,6 +66,26 @@ git clone https://github.com/instana/robot-shop
 kubectl create ns robot-shop
 
 helm install robot-shop --namespace robot-shop robot-shop/K8s/helm
+```
+
+### Cart Log Analyzer
+
+```sh
+# Go to the cart_log_analyzer's folder.
+cd cart_log_analyzer
+
+# Build the cart_log_analyzer's image.
+docker build -t cart_log_analyzer .
+
+# Run the cart_log_analyzer's container.
+# Remember to replace the values between [] by the actual values.
+docker run --name cart_log_analyzer_container \
+    -e SECRET_KEY=[SECRET_KEY] \
+    -e DEBUG=[DEBUG] \
+    -e PORT=[PORT] \
+    -p [PORT]:[PORT] \
+    -v "$(pwd):/cart_log_analyzer_volume" \
+    cart_log_analyzer
 ```
 
 ## Testing
