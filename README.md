@@ -4,7 +4,7 @@ A service that analyzes the log of the [Robot Shop](https://github.com/instana/r
 This service is being built based on a microservices architecture.
 This project will have the analysis of the **cart** and **shipping** services of the Robot Shop as its scope.
 
-![alt text](https://github.com/lucas625/MLog/blob/master/media/diagram.png?raw=true)
+![alt text](media/diagram.png?raw=true)
 
 ## Table OF Contents
 
