@@ -8,6 +8,7 @@ This service is built based on a microservices architecture.
 - [MLog](#mlog)
   - [Table OF Contents](#table-of-contents)
   - [Team](#team)
+  - [Backlog](#backlog)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [Testing](#testing)
@@ -19,6 +20,10 @@ This service is built based on a microservices architecture.
 - [Lucas Aurelio](https://github.com/lucas625)
 - [Lucas Thierry](https://github.com/lucasthierry)
 - [Marcus Rafael](https://github.com/marcusrafael)
+
+## Backlog
+
+- [Board](https://trello.com/invite/b/gBPAZXzy/567892ba668b70a6f3a84c1ad4a84c62/projeto-microservice)
 
 ## Requirements
 
