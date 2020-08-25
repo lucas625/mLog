@@ -32,42 +32,21 @@ This project will have the analysis of the **cart** and **shipping** services of
 
 ## Requirements
 
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Docker](https://www.docker.com/)
+- [Docker-Compose](https://docs.docker.com/compose/install/)
 
 ## Installation
 
 ### Robot Shop
 
 ```sh
-sudo apt update
+# Give permission to script.
+chmod +x robot_shop.sh
 
-sudo apt install virtualbox
-
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-
-chmod +x minikube
-
-sudo mkdir -p /usr/local/bin/
-
-sudo install minikube /usr/local/bin/
-
-curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-
-chmod +x ./kubectl
-
-sudo mv ./kubectl /usr/local/bin/kubectl
-
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-
-chmod 700 get_helm.sh
-
-./get_helm.sh
-
-git clone https://github.com/instana/robot-shop
-
-kubectl create ns robot-shop
-
-helm install robot-shop --namespace robot-shop robot-shop/K8s/helm
+# Run the script.
+# The front-end of the robot shop will be available at: http://127.0.0.1:8080/
+./robot_shop.sh
 ```
 
 ### Cart Log Analyzer
@@ -77,11 +56,11 @@ helm install robot-shop --namespace robot-shop robot-shop/K8s/helm
 cd cart_log_analyzer
 
 # Build the cart_log_analyzer's image.
-docker build -t cart_log_analyzer .
+docker build -t mlog_cart_log_analyzer .
 
 # Run the cart_log_analyzer's container.
 # Remember to replace the values between [] by the actual values.
-docker run --name cart_log_analyzer_container \
+docker run --name mlog_cart_log_analyzer_container \
     -e SECRET_KEY=[SECRET_KEY] \
     -e DEBUG=[DEBUG] \
     -e PORT=[PORT] \
