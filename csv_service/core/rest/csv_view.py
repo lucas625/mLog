@@ -25,11 +25,11 @@ class CsvApiView(views.APIView):
         :returns File:
         """
         try:
-            data = request.POST.dict
+            data = request.data
             csv_bean = CsvBean(enterprise_name=data.get('enterprise_name'), rows=data.get('rows'))
             csv_file = CsvBusiness.generate_csv(csv_bean)
-            response = FileResponse(data=csv_file, status=status.HTTP_200_OK)
-        except:
+            response = FileResponse(csv_file, status=status.HTTP_200_OK)
+        except Exception as exc:
             response = Response(data='Failed to generate CSV.', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
         return response

@@ -6,3 +6,6 @@ db.sqlite3
 
 *.pyc
 venv/
+
+# -------------- Media Files --------------
+media

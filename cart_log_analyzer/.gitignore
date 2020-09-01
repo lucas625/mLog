@@ -5,3 +5,7 @@ db.sqlite3
 # -------------- Python --------------
 
 *.pyc
+venv/
+
+# -------------- Media Files --------------
+media

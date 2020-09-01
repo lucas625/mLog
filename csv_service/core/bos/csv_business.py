@@ -22,12 +22,22 @@ class CsvBusiness:
         :raises IntegrityError:
         :raises ValidationError:
         """
-        csv_path = os.path.join(MEDIA_ROOT, 'csvs', csv_bean.enterprise_name, uuid.uuid4()+'.csv')
-        with open(csv_path, 'wb') as f:
-            writer = csv.writer(f)
-            writer.writerows(csv_bean.rows)
-        csv_bean.csv_file = csv_path
+        csv_bean.csv_file = CsvBusiness._write_csv(csv_bean)
         saved_csv_bean = CsvDao.save(csv_bean)
         return saved_csv_bean.csv_file
 
-
+    @staticmethod
+    def _write_csv(csv_bean):
+        """
+        Function for writing a csv file.
+        :param CsvBean csv_bean:
+        :return str:
+        """
+        base_path = os.path.join(MEDIA_ROOT, 'csvs', csv_bean.enterprise_name)
+        if not os.path.exists(base_path):
+            os.makedirs(base_path)
+        csv_path = os.path.join(base_path, '{}.csv'.format(uuid.uuid4()))
+        with open(csv_path, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerows(csv_bean.rows)
+        return csv_path

@@ -24,7 +24,7 @@ def _validate_file_csv_extension(file_name_with_ext):
 
 class CsvModel(models.Model):
     """Holds data for the csv model."""
-    enterprise_name = models.CharField(unique=True, max_length=100, verbose_name='Enterprise Name')
+    enterprise_name = models.CharField(max_length=100, verbose_name='Enterprise Name')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
     csv_file = models.FileField(
         upload_to='csvs',
