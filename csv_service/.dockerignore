@@ -1,0 +1,8 @@
+# -------------- Files --------------
+
+.env
+
+# -------------- Docker --------------
+
+Dockerfile
+.dockerignore
