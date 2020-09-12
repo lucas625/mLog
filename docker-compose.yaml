@@ -13,6 +13,8 @@ services:
       - csv_service/.env
     environment:
       - CSV_SERVICE_PORT
+    volumes:
+      - ./csv_service:/csv_service
 
   mlog_cart_log_analyzer:
     container_name: mlog_cart_log_analyzer_container
@@ -26,3 +28,5 @@ services:
       - cart_log_analyzer/.env
     environment:
       - CART_LOG_ANALYZER_PORT
+    volumes:
+      - ./cart_log_analyzer:/cart_log_analyzer
