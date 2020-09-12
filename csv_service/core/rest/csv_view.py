@@ -22,7 +22,6 @@ class CsvApiView(views.APIView):
         Builds a csv file based on the arguments passed on the data.
         The data must be like:
             {
-                enterprise_name: 'name_here',
                 field_names: ['name1', 'name2'],
                 rows: [
                         {'name1': 'my name1', 'name2': 'my name2'},
@@ -35,10 +34,12 @@ class CsvApiView(views.APIView):
         """
         try:
             data = request.data
-            csv_bean = CsvBean(enterprise_name=data.get('enterprise_name'), fieldnames=data.get('fieldnames'), rows=data.get('rows'))
-            csv_file = CsvBusiness.generate_csv(csv_bean)
-            response = FileResponse(csv_file, status=status.HTTP_200_OK)
+            csv_bean = CsvBean(fieldnames=data.get('fieldnames'), rows=data.get('rows'))
+            csv_file_data = CsvBusiness.generate_csv(csv_bean)
+            response = FileResponse(csv_file_data, status=status.HTTP_200_OK)
         except Exception as exc:
+            import traceback
+            traceback.print_exc()
             response = Response(data='Failed to generate CSV.', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return response
