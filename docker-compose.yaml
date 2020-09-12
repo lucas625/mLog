@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  mlog_csv_service:
+    container_name: mlog_csv_service_container
+    image: mlog_csv_service
+    build:
+      context: ./csv_service/
+      dockerfile: Dockerfile
+    ports:
+      - $CSV_SERVICE_PORT:$CSV_SERVICE_PORT
+    env_file:
+      - csv_service/.env
+    environment:
+      - CSV_SERVICE_PORT
+
+  mlog_cart_log_analyzer:
+    container_name: mlog_cart_log_analyzer_container
+    image: mlog_cart_log_analyzer
+    build:
+      context: ./cart_log_analyzer/
+      dockerfile: Dockerfile
+    ports:
+      - $CART_LOG_ANALYZER_PORT:$CART_LOG_ANALYZER_PORT
+    env_file:
+      - cart_log_analyzer/.env
+    environment:
+      - CART_LOG_ANALYZER_PORT

@@ -8,7 +8,7 @@ RUN pip install -r requirements-dev.txt
 
 ENV SECRET_KEY ""
 ENV DEBUG ""
-ENV PORT ""
+ENV CART_LOG_ANALYZER_PORT ""
 
 ENTRYPOINT python manage.py migrate && \
-           gunicorn --bind 0.0.0.0:$PORT cart_log_analyzer.wsgi
+           gunicorn --bind 0.0.0.0:$CART_LOG_ANALYZER_PORT cart_log_analyzer.wsgi

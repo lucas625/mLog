@@ -15,7 +15,7 @@ This project will have the analysis of the **cart** and **shipping** services of
   - [Requirements](#requirements)
   - [Installation](#installation)
     - [Robot Shop](#robot-shop)
-    - [Cart Log Analyzer](#cart-log-analyzer)
+    - [Mlog](#mlog-1)
   - [Testing](#testing)
   - [Production](#production)
   - [Guides](#guides)
@@ -49,24 +49,28 @@ chmod +x robot_shop.sh
 ./robot_shop.sh
 ```
 
-### Cart Log Analyzer
+### Mlog
+
+Before running you **MUST** create a file called **.env** on each of the specified folders and pass the required environment variables.
+
+- cart_log_analyzer:
+  - SECRET_KEY
+  - DEBUG
+- csv_service
+  - SECRET_KEY
+  - DEBUG
 
 ```sh
-# Go to the cart_log_analyzer's folder.
-cd cart_log_analyzer
+# Set ports.
+# Remember to change the values between [] for the actual ports.
+export CSV_SERVICE_PORT=[PORT]
+export CART_LOG_ANALYZER_PORT=[PORT]
 
-# Build the cart_log_analyzer's image.
-docker build -t mlog_cart_log_analyzer .
+# Build images
+docker-compose build
 
-# Run the cart_log_analyzer's container.
-# Remember to replace the values between [] by the actual values.
-docker run --name mlog_cart_log_analyzer_container \
-    -e SECRET_KEY=[SECRET_KEY] \
-    -e DEBUG=[DEBUG] \
-    -e PORT=[PORT] \
-    -p [PORT]:[PORT] \
-    -v "$(pwd):/cart_log_analyzer_volume" \
-    cart_log_analyzer
+# Build and Run the containers.
+docker-compose up
 ```
 
 ## Testing

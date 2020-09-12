@@ -8,7 +8,7 @@ RUN pip install -r requirements-dev.txt
 
 ENV SECRET_KEY ""
 ENV DEBUG ""
-ENV PORT ""
+ENV CSV_SERVICE_PORT ""
 
 ENTRYPOINT python manage.py migrate && \
-           gunicorn --bind 0.0.0.0:$PORT csv_service.wsgi
+           gunicorn --bind 0.0.0.0:$CSV_SERVICE_PORT csv_service.wsgi
