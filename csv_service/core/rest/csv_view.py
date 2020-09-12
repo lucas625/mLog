@@ -38,8 +38,6 @@ class CsvApiView(views.APIView):
             csv_file_data = CsvBusiness.generate_csv(csv_bean)
             response = FileResponse(csv_file_data, status=status.HTTP_200_OK)
         except Exception as exc:
-            import traceback
-            traceback.print_exc()
             response = Response(data='Failed to generate CSV.', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return response
