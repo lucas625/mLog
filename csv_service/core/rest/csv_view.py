@@ -20,13 +20,22 @@ class CsvApiView(views.APIView):
     def post(self, request, *args, **kwargs):
         """
         Builds a csv file based on the arguments passed on the data.
-        The data must be like data: {enterprise_name: 'name_here', rows: [[el1, el2...], [eln, eln+1...], ...]}.
+        The data must be like:
+            {
+                enterprise_name: 'name_here',
+                field_names: ['name1', 'name2'],
+                rows: [
+                        {'name1': 'my name1', 'name2': 'my name2'},
+                        {'name1: 'my name1 1', 'name2': 'my name2 1'},
+                        ...
+                ]
+            }
         :param Request request:
         :returns File:
         """
         try:
             data = request.data
-            csv_bean = CsvBean(enterprise_name=data.get('enterprise_name'), rows=data.get('rows'))
+            csv_bean = CsvBean(enterprise_name=data.get('enterprise_name'), fieldnames=data.get('fieldnames'), rows=data.get('rows'))
             csv_file = CsvBusiness.generate_csv(csv_bean)
             response = FileResponse(csv_file, status=status.HTTP_200_OK)
         except Exception as exc:

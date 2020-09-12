@@ -7,15 +7,17 @@
 class CsvBean:
     """Class for csv bean."""
 
-    def __init__(self, enterprise_name, rows=None, csv_file=None):
+    def __init__(self, enterprise_name, fieldnames=None, rows=None, csv_file=None):
         """
         CsvBean constructor.
         :param str enterprise_name:
-        :param list[list] rows:
+        :param list[str] fieldnames:
+        :param list[dict] rows:
         :param File csv_file:
         :return CsvBean:
         """
         self._enterprise_name = enterprise_name
+        self._fieldnames = fieldnames
         self._rows = rows
         self._csv_file = csv_file
 
@@ -28,10 +30,18 @@ class CsvBean:
         return self._enterprise_name
 
     @property
+    def fieldnames(self):
+        """
+        Getter for fieldnames.
+        :return list[str]:
+        """
+        return self._fieldnames
+
+    @property
     def rows(self):
         """
         Getter for rows.
-        :return list[list]:
+        :return list[dict]:
         """
         return self._rows
 
