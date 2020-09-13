@@ -72,9 +72,19 @@ user: elastic
 password: changeme
 ```
 
+Then you need to:
+
+1. Go to **Discover**.
+2. Create an index pattern with patthen: `logstash-*`.
+3. Go to the next page and set `@timestamp`.
+4. Go to **Discover** again, now you should be able to see the logs, once you upload then.
+
 - Send logs:
 
 ```sh
+# Generate the logs of a container
+docker logs container_name >> /path/to/logfile.log
+
 # Use the following command to send logs to elastic search. You will need to use it on the logs of the desired containers (cart and shipping).
 cat /path/to/logfile.log | nc -q0 localhost 5000
 ```
@@ -113,3 +123,4 @@ docker-compose up
 - Django Rest Framework
   - [Docs](https://www.django-rest-framework.org/)
   - [Overview](http://www.cdrf.co/)
+- [Elastic Search](https://github.com/deviantony/docker-elk)
