@@ -2,7 +2,7 @@
 
 A service that analyzes the log of the [Robot Shop](https://github.com/instana/robot-shop) and provides insights on how to increase sells.
 This service is being built based on a microservices architecture.
-This project will have the analysis of the **cart** and **shipping** services of the Robot Shop as its scope.
+This project will have the analysis of the **Payment** service of the Robot Shop as its scope.
 
 ![alt text](media/diagram.png?raw=true)
 
@@ -78,16 +78,6 @@ Then you need to:
 2. Create an index pattern with patthen: `logstash-*`.
 3. Go to the next page and set `@timestamp`.
 4. Go to **Discover** again, now you should be able to see the logs, once you upload then.
-
-- Send logs:
-
-```sh
-# Generate the logs of a container
-docker logs container_name >> /path/to/logfile.log
-
-# Use the following command to send logs to elastic search. You will need to use it on the logs of the desired containers (cart and shipping).
-cat /path/to/logfile.log | nc -q0 localhost 5000
-```
 
 ### Mlog
 
