@@ -103,6 +103,12 @@ docker-compose build
 docker-compose up
 ```
 
+- Open a virtual env then:
+
+```sh
+python -m pip install elasticsearch
+```
+
 ## Testing
 
 ## Production
@@ -114,3 +120,4 @@ docker-compose up
   - [Docs](https://www.django-rest-framework.org/)
   - [Overview](http://www.cdrf.co/)
 - [Elastic Search](https://github.com/deviantony/docker-elk)
+  - [Elastic Search Py](https://github.com/elastic/elasticsearch-py)
