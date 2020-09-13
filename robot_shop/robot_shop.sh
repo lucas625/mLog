@@ -1,4 +1,4 @@
 git clone https://github.com/instana/robot-shop
+cp docker-compose.yaml robot-shop/
 cd robot-shop/
-docker-compose build
-docker-compose -f docker-compose.yaml -f docker-compose-load.yaml up
+docker-compose up -d
