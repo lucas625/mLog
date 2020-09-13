@@ -15,6 +15,7 @@ This project will have the analysis of the **cart** and **shipping** services of
   - [Requirements](#requirements)
   - [Installation](#installation)
     - [Robot Shop](#robot-shop)
+    - [Elastic Search](#elastic-search)
     - [Mlog](#mlog-1)
   - [Testing](#testing)
   - [Production](#production)
@@ -47,6 +48,35 @@ chmod +x robot_shop.sh
 # Run the script.
 # The front-end of the robot shop will be available at: http://127.0.0.1:8080/
 ./robot_shop.sh
+```
+
+### Elastic Search
+
+- Installing
+
+```sh
+# Give permission to script.
+chmod +x elastic_search.sh
+
+# Run the script.
+# The front-end of the elastic search will be available at: http://127.0.0.1:5601/
+./elastic_search.sh
+```
+
+- Setup
+
+You will have to login into the elastic search interface. Use the following credentials:
+
+```txt
+user: elastic
+password: changeme
+```
+
+- Send logs:
+
+```sh
+# Use the following command to send logs to elastic search. You will need to use it on the logs of the desired containers (cart and shipping).
+cat /path/to/logfile.log | nc -q0 localhost 5000
 ```
 
 ### Mlog
