@@ -89,24 +89,22 @@ Before running you **MUST** create a file called **.env** on each of the specifi
 - csv_service
   - SECRET_KEY
   - DEBUG
+- search_service
+  - SECRET_KEY
+  - DEBUG
 
 ```sh
 # Set ports.
 # Remember to change the values between [] for the actual ports.
 export CSV_SERVICE_PORT=[PORT]
 export CART_LOG_ANALYZER_PORT=[PORT]
+export SEARCH_SERVICE_PORT=[PORT]
 
 # Build images
 docker-compose build
 
 # Build and Run the containers.
 docker-compose up
-```
-
-- Open a virtual env then:
-
-```sh
-python -m pip install elasticsearch
 ```
 
 ## Testing
