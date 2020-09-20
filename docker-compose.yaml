@@ -30,3 +30,18 @@ services:
       - CART_LOG_ANALYZER_PORT
     volumes:
       - ./cart_log_analyzer:/cart_log_analyzer
+
+  mlog_search_service:
+    container_name: mlog_search_service_container
+    image: mlog_search_service
+    build:
+      context: ./search_service/
+      dockerfile: Dockerfile
+    ports:
+      - $SEARCH_SERVICE_PORT:$SEARCH_SERVICE_PORT
+    env_file:
+      - search_service/.env
+    environment:
+      - SEARCH_SERVICE_PORT
+    volumes:
+      - ./search_service:/search_service
