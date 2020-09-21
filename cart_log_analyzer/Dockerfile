@@ -11,4 +11,4 @@ ENV DEBUG ""
 ENV CART_LOG_ANALYZER_PORT ""
 
 ENTRYPOINT python manage.py migrate && \
-           gunicorn --bind 0.0.0.0:$CART_LOG_ANALYZER_PORT cart_log_analyzer.wsgi
+           python manage.py runserver 0.0.0.0:$CART_LOG_ANALYZER_PORT

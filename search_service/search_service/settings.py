@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -151,3 +152,7 @@ SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 SECURE_HSTS_PRELOAD = False
+
+ELASTIC_SEARCH_URL = decouple.config('ELASTIC_SEARCH_URL', cast=str, default='http://localhost:9200')
+ELASTIC_AUTH_USERNAME = decouple.config('ELASTIC_AUTH_USERNAME', cast=str, default='elastic')
+ELASTIC_AUTH_PASSWORD = decouple.config('ELASTIC_AUTH_PASSWORD', cast=str, default='changeme')

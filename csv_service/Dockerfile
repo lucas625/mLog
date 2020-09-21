@@ -11,4 +11,4 @@ ENV DEBUG ""
 ENV CSV_SERVICE_PORT ""
 
 ENTRYPOINT python manage.py migrate && \
-           gunicorn --bind 0.0.0.0:$CSV_SERVICE_PORT csv_service.wsgi
+           python manage.py runserver 0.0.0.0:$CSV_SERVICE_PORT
