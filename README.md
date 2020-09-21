@@ -92,6 +92,7 @@ Before running you **MUST** create a file called **.env** on each of the specifi
 - search_service
   - SECRET_KEY
   - DEBUG
+  - ELASTIC_SEARCH_URL (you must provide your ip if local, not localhost)
 
 ```sh
 # Set ports.

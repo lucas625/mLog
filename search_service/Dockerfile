@@ -11,4 +11,4 @@ ENV DEBUG ""
 ENV SEARCH_SERVICE_PORT ""
 
 ENTRYPOINT python manage.py migrate && \
-           gunicorn --bind 0.0.0.0:$SEARCH_SERVICE_PORT search_service.wsgi
+           python manage.py runserver 0.0.0.0:$SEARCH_SERVICE_PORT
