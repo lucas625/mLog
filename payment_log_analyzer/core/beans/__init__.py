@@ -6,3 +6,4 @@
 from core.beans.log_bean import LogBean
 from core.beans.cart_item_bean import CartItemBean
 from core.beans.shipping_bean import ShippingBean
+from core.beans.analyzed_item_bean import AnalyzedItemBean
