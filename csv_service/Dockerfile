@@ -7,7 +7,6 @@ RUN python -m pip install --upgrade pip
 RUN pip install -r requirements-dev.txt
 
 ENV SECRET_KEY ""
-ENV DEBUG ""
 ENV CSV_SERVICE_PORT ""
 
 ENTRYPOINT python manage.py migrate && \
