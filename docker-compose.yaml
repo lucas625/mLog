@@ -16,7 +16,7 @@ services:
     volumes:
       - ./csv_service:/csv_service
 
-  mlog_cart_log_analyzer:
+  mlog_payment_log_analyzer:
     container_name: mlog_payment_log_analyzer_container
     image: mlog_payment_log_analyzer
     build:
@@ -30,6 +30,9 @@ services:
       - PAYMENT_LOG_ANALYZER_PORT
     volumes:
       - ./payment_log_analyzer:/payment_log_analyzer
+    depends_on:
+      - mlog_csv_service
+      - mlog_search_service
 
   mlog_search_service:
     container_name: mlog_search_service_container

@@ -3,6 +3,7 @@
 
 """REST-API for analyzing the payment log."""
 
+from django.http import FileResponse
 from rest_framework import status
 from rest_framework import views
 from rest_framework.response import Response
@@ -23,7 +24,8 @@ class PaymentLogAnalyzerApiView(views.APIView):
         """
         try:
             days = request.data.get('days') if request.data.get('days') else None
-            # TODO: Add here the call to the business
+            csv_file = PaymentLogAnalyzerBusiness.analyze(days)
+            response = FileResponse(csv_file, status=status.HTTP_200_OK)
         except Exception as exc:
             response = Response(
                 data='Failed to analyze the payment log.', status=status.HTTP_500_INTERNAL_SERVER_ERROR)

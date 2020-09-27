@@ -85,6 +85,8 @@ Before running you **MUST** create a file called **.env** on each of the specifi
 
 - payment_log_analyzer:
   - SECRET_KEY
+  - SEARCH_SERVICE_URL
+  - CSV_SERVICE_URL
 
 - csv_service
   - SECRET_KEY

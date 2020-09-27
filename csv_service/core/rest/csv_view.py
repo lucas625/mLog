@@ -30,7 +30,7 @@ class CsvApiView(views.APIView):
                 ]
             }
         :param Request request:
-        :returns File:
+        :returns Response:
         """
         try:
             data = request.data
