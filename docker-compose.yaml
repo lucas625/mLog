@@ -9,12 +9,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - $CSV_SERVICE_PORT:$CSV_SERVICE_PORT
-    env_file:
-      - csv_service/.env
     environment:
+      - SECRET_KEY
+      - DEBUG
       - CSV_SERVICE_PORT
-    volumes:
-      - ./csv_service:/csv_service
 
   mlog_payment_log_analyzer:
     container_name: mlog_payment_log_analyzer_container
@@ -24,12 +22,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - $PAYMENT_LOG_ANALYZER_PORT:$PAYMENT_LOG_ANALYZER_PORT
-    env_file:
-      - payment_log_analyzer/.env
     environment:
+      - SECRET_KEY
+      - DEBUG
       - PAYMENT_LOG_ANALYZER_PORT
-    volumes:
-      - ./payment_log_analyzer:/payment_log_analyzer
+      - SEARCH_SERVICE_URL
+      - CSV_SERVICE_URL
     depends_on:
       - mlog_csv_service
       - mlog_search_service
@@ -42,9 +40,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - $SEARCH_SERVICE_PORT:$SEARCH_SERVICE_PORT
-    env_file:
-      - search_service/.env
     environment:
+      - SECRET_KEY
+      - DEBUG
       - SEARCH_SERVICE_PORT
-    volumes:
-      - ./search_service:/search_service
+      - ELASTIC_SEARCH_URL
+      - ELASTIC_AUTH_USERNAME
+      - ELASTIC_AUTH_PASSWORD

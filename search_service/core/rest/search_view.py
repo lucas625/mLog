@@ -26,7 +26,6 @@ class SearchApiView(views.APIView):
             log_beans = SearchBusiness.search(days)
             response = Response([log_bean.to_dto() for log_bean in log_beans], status=status.HTTP_200_OK)
         except Exception as exc:
-            import traceback; traceback.print_exc()
             response = Response(
                 data='Failed to search on elastic search.', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
