@@ -16,20 +16,23 @@ services:
     volumes:
       - ./csv_service:/csv_service
 
-  mlog_cart_log_analyzer:
-    container_name: mlog_cart_log_analyzer_container
-    image: mlog_cart_log_analyzer
+  mlog_payment_log_analyzer:
+    container_name: mlog_payment_log_analyzer_container
+    image: mlog_payment_log_analyzer
     build:
-      context: ./cart_log_analyzer/
+      context: ./payment_log_analyzer/
       dockerfile: Dockerfile
     ports:
-      - $CART_LOG_ANALYZER_PORT:$CART_LOG_ANALYZER_PORT
+      - $PAYMENT_LOG_ANALYZER_PORT:$PAYMENT_LOG_ANALYZER_PORT
     env_file:
-      - cart_log_analyzer/.env
+      - payment_log_analyzer/.env
     environment:
-      - CART_LOG_ANALYZER_PORT
+      - PAYMENT_LOG_ANALYZER_PORT
     volumes:
-      - ./cart_log_analyzer:/cart_log_analyzer
+      - ./payment_log_analyzer:/payment_log_analyzer
+    depends_on:
+      - mlog_csv_service
+      - mlog_search_service
 
   mlog_search_service:
     container_name: mlog_search_service_container

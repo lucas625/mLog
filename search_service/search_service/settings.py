@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 SECRET_KEY = decouple.config('SECRET_KEY', cast=str)
-DEBUG = decouple.config('DEBUG', default=False, cast=bool)
+DEBUG = decouple.config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # Implemented Apps
+    'core'
 ]
 
 MIDDLEWARE = [

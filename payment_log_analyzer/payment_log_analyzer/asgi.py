@@ -1,5 +1,5 @@
 """
-ASGI config for cart_log_analyzer project.
+ASGI config for payment_log_analyzer project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cart_log_analyzer.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'payment_log_analyzer.settings')
 
 application = get_asgi_application()

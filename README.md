@@ -83,22 +83,22 @@ Then you need to:
 
 Before running you **MUST** create a file called **.env** on each of the specified folders and pass the required environment variables.
 
-- cart_log_analyzer:
+- payment_log_analyzer:
   - SECRET_KEY
-  - DEBUG
+  - SEARCH_SERVICE_URL
+  - CSV_SERVICE_URL
+
 - csv_service
   - SECRET_KEY
-  - DEBUG
+
 - search_service
   - SECRET_KEY
-  - DEBUG
-  - ELASTIC_SEARCH_URL (you must provide your ip if local, not localhost)
 
 ```sh
 # Set ports.
 # Remember to change the values between [] for the actual ports.
 export CSV_SERVICE_PORT=[PORT]
-export CART_LOG_ANALYZER_PORT=[PORT]
+export PAYMENT_LOG_ANALYZER_PORT=[PORT]
 export SEARCH_SERVICE_PORT=[PORT]
 
 # Build images
