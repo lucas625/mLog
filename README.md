@@ -81,31 +81,15 @@ Then you need to:
 
 ### Mlog
 
-Before running you **MUST** create a file called **.env** on each of the specified folders and pass the required environment variables.
-
-- payment_log_analyzer:
-  - SECRET_KEY
-  - SEARCH_SERVICE_URL
-  - CSV_SERVICE_URL
-
-- csv_service
-  - SECRET_KEY
-
-- search_service
-  - SECRET_KEY
-
 ```sh
-# Set ports.
-# Remember to change the values between [] for the actual ports.
-export CSV_SERVICE_PORT=[PORT]
-export PAYMENT_LOG_ANALYZER_PORT=[PORT]
-export SEARCH_SERVICE_PORT=[PORT]
+# Allow setup_env.sh
+chmod +x ./setup_env.sh
 
-# Build images
-docker-compose build
+# Set the env variables
+source ./setup_env.sh
 
 # Build and Run the containers.
-docker-compose up
+docker-compose up --build
 ```
 
 ## Testing
