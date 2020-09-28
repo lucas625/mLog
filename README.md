@@ -81,7 +81,8 @@ Then you need to:
 
 ### Mlog
 
-In order to setup mlog, we need to be able to communicate with elastic search. To communicate with elastic search, we need to find your IP and use it on the *setup_env.sh* as the elastic search URL.
+In order to work, mlog needs a few IPs, you must provide them on the setup_env.sh. Remember not to use localhost or 127.0.0.1, you must use your real IP.
+Remember to change the secret key value and whenever you change the setup_env.sh you must run the commands bellow.
 
 ```sh
 # Allow setup_env.sh
