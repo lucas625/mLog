@@ -3,10 +3,13 @@
 
 """REST-API for generating a csv file."""
 
+import json
+
 from django.http import FileResponse
 from rest_framework import status
 from rest_framework import views
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
 
 from core.beans import CsvBean
 from core.bos import CsvBusiness
@@ -16,6 +19,7 @@ class CsvApiView(views.APIView):
     """REST-API for generating a csv file."""
 
     http_method_names = ['post']
+    parser_classes = [JSONParser]
 
     def post(self, request, *args, **kwargs):
         """
@@ -33,8 +37,8 @@ class CsvApiView(views.APIView):
         :returns Response:
         """
         try:
-            data = request.data
-            csv_bean = CsvBean(fieldnames=data.get('fieldnames'), rows=data.get('rows'))
+            data = json.loads(request.data)
+            csv_bean = CsvBean(fieldnames=data.get('field_names'), rows=data.get('rows'))
             csv_file_data = CsvBusiness.generate_csv(csv_bean)
             response = FileResponse(csv_file_data, status=status.HTTP_200_OK)
         except Exception as exc:

@@ -3,10 +3,9 @@
 
 """Business layer for analyzing the payment log."""
 
-
-import requests
-
+import json
 from django.conf import settings
+import requests
 
 from core.beans import AnalyzedItemBean
 from core.beans import CartItemBean
@@ -26,7 +25,20 @@ class PaymentLogAnalyzerBusiness:
         """
         log_beans = PaymentLogAnalyzerBusiness._get_logs_data(days)
         analyzed_item_beans = PaymentLogAnalyzerBusiness._analyze_items(log_beans)
-        # TODO: call the csv service on the analyzed items (parse their format to the required on the csv service).
+        return PaymentLogAnalyzerBusiness._get_csv(analyzed_item_beans)
+
+    @staticmethod
+    def _get_csv(analyzed_item_beans):
+        """
+        Function to generate the csv.
+        :param list[AnalyzedItemBean] analyzed_item_beans:
+        :return File:
+        """
+        data_transfer_object = {
+            'field_names': ['name', 'appearance_on_transactions', 'average_price', 'total_count', 'total_price'],
+            'rows': [analyzed_item.to_dto() for analyzed_item in analyzed_item_beans]
+        }
+        return requests.post(url='{}/api/csv/generate/'.format(settings.CSV_SERVICE_URL), json=json.dumps(data_transfer_object))
 
     @staticmethod
     def _analyze_items(log_beans):
@@ -37,7 +49,7 @@ class PaymentLogAnalyzerBusiness:
         """
         full_list_of_items = PaymentLogAnalyzerBusiness._generate_full_list_of_items(log_beans)
         grouped_list_of_items = PaymentLogAnalyzerBusiness._generate_grouped_list_of_items(full_list_of_items)
-        # TODO: parse grouped list of items to AnalyzedItemBean
+        return PaymentLogAnalyzerBusiness._generate_list_of_analyzed_items_beans(grouped_list_of_items)
 
     @staticmethod
     def _generate_full_list_of_items(log_beans):
@@ -50,6 +62,33 @@ class PaymentLogAnalyzerBusiness:
         for log_bean in log_beans:
             full_list_of_items += log_bean.items
         return full_list_of_items
+
+    @staticmethod
+    def _generate_list_of_analyzed_items_beans(grouped_list_of_items):
+        """
+        Function to generate a list of analyzed item beans.
+        :param list[list[CartItemBean]] grouped_list_of_items:
+        :return list[AnalyzedItemBean]:
+        """
+        analyzed_items_list = []
+        for grouped_items in grouped_list_of_items:
+            name = grouped_items[0].name
+            occurrences = len(grouped_items)
+            total_price = 0
+            total_count = 0
+            for item in grouped_items:
+                total_count += item.number_of_items
+                total_price += item.number_of_items * item.individual_price
+            average_price = total_price / total_count
+            analyzed_items_list.append(
+                AnalyzedItemBean(
+                    name=name,
+                    appearance_on_transactions=occurrences,
+                    average_price=average_price,
+                    total_count=total_count,
+                    total_price=total_price))
+        sorted_analyzed_items_list = sorted(analyzed_items_list, key=lambda k: k.appearance_on_transactions)
+        return sorted_analyzed_items_list
 
     @staticmethod
     def _generate_grouped_list_of_items(item_beans):
@@ -83,7 +122,7 @@ class PaymentLogAnalyzerBusiness:
         :param int days:
         :return list[LogBean]:
         """
-        logs_data = requests.post(url=settings.SEARCH_SERVICE_URL, data=dict(days=days))
+        logs_data = requests.post(url='{}/api/search/'.format(settings.SEARCH_SERVICE_URL), data=dict()).json()
         return PaymentLogAnalyzerBusiness._parse_logs_data_to_beans(logs_data)
 
     @staticmethod
@@ -101,7 +140,7 @@ class PaymentLogAnalyzerBusiness:
                     individual_price=item['individual_price'],
                     number_of_items=item['number_of_items'])
                 for item in log_data['items']]
-            shipping = ShippingBean(to=log_data['to'], price=log_data['price'])
+            shipping = ShippingBean(to=log_data['shipping']['to'], price=log_data['shipping']['price'])
             log_bean = LogBean(total_price=log_data['total_price'], tax=log_data['tax'], items=items, shipping=shipping)
             logs_bean_list.append(log_bean)
         return logs_bean_list
