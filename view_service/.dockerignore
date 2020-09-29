@@ -1,0 +1,8 @@
+# -------------- Files --------------
+
+node_modules
+
+# -------------- Docker --------------
+
+Dockerfile
+.dockerignore

@@ -47,3 +47,17 @@ services:
       - ELASTIC_SEARCH_URL
       - ELASTIC_AUTH_USERNAME
       - ELASTIC_AUTH_PASSWORD
+
+  mlog_payment_log_analyzer:
+    container_name: mlog_view_service_container
+    image: mlog_view_service
+    build:
+      context: ./view_service/
+      dockerfile: Dockerfile
+    ports:
+      - $VIEW_SERVICE_PORT:$VIEW_SERVICE_PORT
+    environment:
+      - VIEW_SERVICE_PORT
+      - VUE_APP_ANALYZER_URL
+    depends_on:
+      - mlog_payment_log_analyzer
