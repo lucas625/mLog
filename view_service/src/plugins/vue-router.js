@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/analyze',
+    path: '',
     name: 'analyze',
     props: false,
     component: () => import('@/views/AnalysisView'),

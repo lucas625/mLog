@@ -1,39 +1,46 @@
 <template>
   <v-container
-      class="fill-height"
-      fluid
+    class="fill-height"
+    fluid
   >
     <v-row
-        align="center"
-        justify="center"
+      align="center"
+      justify="center"
     >
       <v-col
-          cols="12"
-          sm="8"
-          md="4"
+        cols="10"
+        sm="8"
+        md="6"
       >
-        <v-card class="elevation-12">
+        <v-card
+          class="elevation-12"
+          :loading="isAnalysisRunning"
+        >
           <v-toolbar
-              color="primary"
-              dark
-              flat
+            color="primary"
+            dark
+            flat
           >
             <v-toolbar-title>Analyze the Sales</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form>
+            <v-form ref="analysisForm">
               <v-text-field
-                  v-model="days"
-                  :rules="days_rules"
-                  label="Days"
-                  type="number"
-                  prepend-icon="mdi-account"
+                v-model="days"
+                :rules="days_rules"
+                hint="Days before today to be analyzed."
+                label="Days"
+                type="number"
+                prepend-icon="mdi-calendar-range"
               />
-            </v-form>
+              </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary">
+            <v-btn
+              color="primary"
+              @click="submit"
+            >
               <v-icon left>
                 mdi-download
               </v-icon>
@@ -48,12 +55,40 @@
 
 <script>
 
-import AnalysisService from '@/services/AnalysisService'
+import AnalysisService from '@/services/analysis_service'
 
 const analysisService = new AnalysisService()
 
+/**
+ * Performs the submit.
+ * @private
+ */
+function _submit () {
+  if (this.$refs.analysisForm.validate()) {
+    this.isAnalysisRunning = true
+    const analysisParameters = {
+      days: this.days
+    }
+
+    const successCallBack = (response) => {
+      const thesisFile = window.URL.createObjectURL(response.data)
+      window.open(thesisFile)
+    }
+
+    const errorCallBack = (error) => {
+      alert('Failed to download')
+    }
+
+    const finallyCallBack = () => {
+      this.isAnalysisRunning = false
+    }
+
+    analysisService.analyze(analysisParameters, successCallBack, errorCallBack, finallyCallBack)
+  }
+}
+
 export default {
-  name: 'RegisterView',
+  name: 'AnalysisView',
   data: function () {
     return {
       /**
@@ -66,8 +101,16 @@ export default {
       days_rules: [
         (value) => (Boolean(value) && value.length > 0) || 'This field is required',
         (value) => value > 0 || 'We need at least 1 day to perform the analysis.'
-      ]
+      ],
+      /**
+       * Flag to show if the analysis is running.
+       */
+      isAnalysisRunning: false
     }
+  },
+  methods: {
+    submit: _submit,
+
   }
 }
 </script>
