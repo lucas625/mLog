@@ -65,17 +65,20 @@ const analysisService = new AnalysisService()
  */
 function _submit () {
   if (this.$refs.analysisForm.validate()) {
+    console.log(process.env.VUE_APP_ANALYZER_URL)
     this.isAnalysisRunning = true
     const analysisParameters = {
-      days: this.days
+      // days: this.days
     }
 
     const successCallBack = (response) => {
-      const thesisFile = window.URL.createObjectURL(response.data)
-      window.open(thesisFile)
+      const blob = new Blob([response.data], { type: 'text/csv' })
+      const url = window.URL.createObjectURL(blob)
+      window.open(url)
     }
 
     const errorCallBack = (error) => {
+      console.log(error)
       alert('Failed to download')
     }
 
@@ -94,7 +97,7 @@ export default {
       /**
        * Days before today to analyze the logs.
        */
-      days: 14,
+      days: null,
       /**
        * Rules for the days field.
        */

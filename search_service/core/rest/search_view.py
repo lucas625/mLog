@@ -22,7 +22,8 @@ class SearchApiView(views.APIView):
         :returns Response:
         """
         try:
-            days = request.data.get('days') if request.data.get('days') else None
+            # days = request.data.get('days') if request.data.get('days') else None
+            days = None
             log_beans = SearchBusiness.search(days)
             response = Response([log_bean.to_dto() for log_bean in log_beans], status=status.HTTP_200_OK)
         except Exception as exc:

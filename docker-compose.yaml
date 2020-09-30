@@ -48,7 +48,7 @@ services:
       - ELASTIC_AUTH_USERNAME
       - ELASTIC_AUTH_PASSWORD
 
-  mlog_payment_log_analyzer:
+  mlog_view_service:
     container_name: mlog_view_service_container
     image: mlog_view_service
     build:
