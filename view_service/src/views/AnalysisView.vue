@@ -9,8 +9,7 @@
     >
       <v-col
         cols="10"
-        sm="8"
-        md="6"
+        md="8"
       >
         <v-card
           class="elevation-12"
@@ -25,27 +24,47 @@
           </v-toolbar>
           <v-card-text>
             <v-form ref="analysisForm">
-              <v-text-field
-                v-model="days"
-                :rules="days_rules"
-                hint="Days before today to be analyzed."
-                label="Days"
-                type="number"
-                prepend-icon="mdi-calendar-range"
-              />
-              </v-form>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="6"
+                  align="center"
+                >
+                  <v-subheader class="pl-0">
+                    Start Date
+                  </v-subheader>
+                  <v-date-picker v-model="startDate" />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="6"
+                  align="center"
+                >
+                  <v-subheader class="pl-0">
+                    End Date
+                  </v-subheader>
+                  <v-date-picker
+                    v-model="endDate"
+                    :min=startDate
+                  />
+                </v-col>
+              </v-row>
+            </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              @click="submit"
-            >
-              <v-icon left>
-                mdi-download
-              </v-icon>
-              Download CSV
-            </v-btn>
+            <v-row>
+              <v-col align="center">
+                <v-btn
+                  color="primary"
+                  @click="submit"
+                >
+                  <v-icon left>
+                    mdi-download
+                  </v-icon>
+                  Download CSV
+                </v-btn>
+              </v-col>
+            </v-row>   
           </v-card-actions>
         </v-card>
       </v-col>
@@ -65,10 +84,11 @@ const analysisService = new AnalysisService()
  */
 function _submit () {
   if (this.$refs.analysisForm.validate()) {
-    console.log(process.env.VUE_APP_ANALYZER_URL)
+    
     this.isAnalysisRunning = true
     const analysisParameters = {
-      // days: this.days
+      start_date: this.startDate,
+      end_date: this.endDate
     }
 
     const successCallBack = (response) => {
@@ -78,7 +98,6 @@ function _submit () {
     }
 
     const errorCallBack = (error) => {
-      console.log(error)
       alert('Failed to download')
     }
 
@@ -95,20 +114,25 @@ export default {
   data: function () {
     return {
       /**
-       * Days before today to analyze the logs.
+       * The lower date limit to analyze.
        */
-      days: null,
+      startDate: new Date().toISOString().split('T')[0],
       /**
-       * Rules for the days field.
+       * The upper date limit to analyze.
        */
-      days_rules: [
-        (value) => (Boolean(value) && value.length > 0) || 'This field is required',
-        (value) => value > 0 || 'We need at least 1 day to perform the analysis.'
-      ],
+      endDate: new Date().toISOString().split('T')[0],
       /**
        * Flag to show if the analysis is running.
        */
       isAnalysisRunning: false
+    }
+  },
+  computed: {
+    /**
+     * Rule that verifies if the end date is bigger than the lower date.
+     */
+    endDateRule: function () {
+      return Boolean(this.endDate >= this.startDate) || 'The end date must be bigger than the lower date.'
     }
   },
   methods: {

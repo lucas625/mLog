@@ -92,6 +92,7 @@ chmod +x ./setup_env.sh
 source ./setup_env.sh
 
 # Build and Run the containers.
+# Mlog will be available at 127.0.0.1:8084
 docker-compose up --build
 ```
 

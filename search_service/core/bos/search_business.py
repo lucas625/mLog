@@ -4,6 +4,7 @@
 """Business layer for searching on elk."""
 
 import json
+import datetime
 
 from elasticsearch import Elasticsearch
 
@@ -19,17 +20,18 @@ class SearchBusiness:
     """Class for business layer for searching on elk."""
 
     @staticmethod
-    def search(days=None):
+    def search(start_date, end_date):
         """
         Searches on elastic search.
-        :param int days:
+        :param str start_date: formated as YYYY-MM-DD.
+        :param str end_date: formated as YYYY-MM-DD.
         :return list[LogBean]:
         """
         elastic_search_instance = SearchBusiness._initialize_elastic_search()
 
-        search_body = SearchBusiness._generate_search_body(days)
+        search_body = SearchBusiness._generate_search_body(start_date, end_date)
 
-        search_result = elastic_search_instance.search(index="logstash-*", body=search_body, size=500)
+        search_result = elastic_search_instance.search(index="logstash-*", body=search_body, size=10000)
 
         return SearchBusiness._parse_search_result_to_log_beans(search_result)
 
@@ -45,23 +47,34 @@ class SearchBusiness:
         )
 
     @staticmethod
-    def _generate_search_body(days=None):
+    def _generate_search_body(start_date, end_date):
         """
-        Generates the search body for search on elk, also accepts the days parameter for filtering data.
-        :param int days: the number of days before today to search on.
+        Generates the search body for search on elk.
+        :param str start_date: formated as YYYY-MM-DD.
+        :param str end_date: formated as YYYY-MM-DD.
         :return dict:
         """
-        if days:
-            pass  # TODO: implement me.
-        else:
-            search_body = {
-                "query": {
-                    "query_string": {
-                        "query": "total",
-                        "default_field": "message"
-                    }
+        search_body = {
+            "query": {
+                "bool": {
+                    "must": {
+                        "query_string": {
+                            "query": "total",
+                            "default_field": "message"
+                        }
+                    },
+                    "should": {
+                        "range": {
+                            "@timestamp": {
+                                "gte": start_date,
+                                "lte": end_date
+                            }
+                        }
+                    },
+                    "minimum_should_match" : 1
                 }
             }
+        }
         return search_body
 
     @staticmethod
