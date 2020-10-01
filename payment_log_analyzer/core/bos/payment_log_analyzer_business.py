@@ -3,7 +3,6 @@
 
 """Business layer for analyzing the payment log."""
 
-import json
 from django.conf import settings
 import requests
 
@@ -17,13 +16,14 @@ class PaymentLogAnalyzerBusiness:
     """Class for business layer for analyzing the payment log."""
 
     @staticmethod
-    def analyze(days):
+    def analyze(start_date, end_date):
         """
         Function to analyze the payment logs and return a csv file with the results.
-        :param int days: the total number of days before today to analyze.
+        :param str start_date: formated as YYYY-MM-DD.
+        :param str end_date: formated as YYYY-MM-DD.
         :return File:
         """
-        log_beans = PaymentLogAnalyzerBusiness._get_logs_data(days)
+        log_beans = PaymentLogAnalyzerBusiness._get_logs_data(start_date, end_date)
         analyzed_item_beans = PaymentLogAnalyzerBusiness._analyze_items(log_beans)
         return PaymentLogAnalyzerBusiness._get_csv(analyzed_item_beans)
 
@@ -38,7 +38,7 @@ class PaymentLogAnalyzerBusiness:
             'field_names': ['name', 'appearance_on_transactions', 'average_price', 'total_count', 'total_price'],
             'rows': [analyzed_item.to_dto() for analyzed_item in analyzed_item_beans]
         }
-        return requests.post(url='{}/api/csv/generate/'.format(settings.CSV_SERVICE_URL), json=json.dumps(data_transfer_object))
+        return requests.post(url='{}/api/csv/generate/'.format(settings.CSV_SERVICE_URL), json=data_transfer_object)
 
     @staticmethod
     def _analyze_items(log_beans):
@@ -87,7 +87,7 @@ class PaymentLogAnalyzerBusiness:
                     average_price=average_price,
                     total_count=total_count,
                     total_price=total_price))
-        sorted_analyzed_items_list = sorted(analyzed_items_list, key=lambda k: k.appearance_on_transactions)
+        sorted_analyzed_items_list = sorted(analyzed_items_list, key=lambda k: k.appearance_on_transactions, reverse=True)
         return sorted_analyzed_items_list
 
     @staticmethod
@@ -116,13 +116,16 @@ class PaymentLogAnalyzerBusiness:
         return grouped_list_of_items
 
     @staticmethod
-    def _get_logs_data(days):
+    def _get_logs_data(start_date, end_date):
         """
         Function to get the logs data.
-        :param int days:
+        :param str start_date: formated as YYYY-MM-DD.
+        :param str end_date: formated as YYYY-MM-DD.
         :return list[LogBean]:
         """
-        logs_data = requests.post(url='{}/api/search/'.format(settings.SEARCH_SERVICE_URL), data=dict()).json()
+        logs_data = requests.post(
+            url='{}/api/search/'.format(settings.SEARCH_SERVICE_URL),
+            json=dict(start_date=start_date, end_date=end_date)).json()
         return PaymentLogAnalyzerBusiness._parse_logs_data_to_beans(logs_data)
 
     @staticmethod

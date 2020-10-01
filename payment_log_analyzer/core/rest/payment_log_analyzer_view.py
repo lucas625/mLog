@@ -19,12 +19,18 @@ class PaymentLogAnalyzerApiView(views.APIView):
     def post(self, request, *args, **kwargs):
         """
         Analyzes the payment log.
+        The data must be like:
+            {
+                "start_date": "YYYY-MM-DD",
+                "end_date": "YYYY-MM-DD"
+            }
         :param Request request:
         :returns Response:
         """
         try:
-            days = request.data.get('days') if request.data.get('days') else None
-            csv_file = PaymentLogAnalyzerBusiness.analyze(days)
+            start_date = request.data.get('start_date')
+            end_date = request.data.get('end_date')
+            csv_file = PaymentLogAnalyzerBusiness.analyze(start_date, end_date)
             response = FileResponse(csv_file, status=status.HTTP_200_OK)
         except Exception as exc:
             response = Response(
