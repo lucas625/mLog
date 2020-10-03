@@ -92,9 +92,11 @@ function _submit () {
     }
 
     const successCallBack = (response) => {
-      const blob = new Blob([response.data], { type: 'text/csv' })
-      const url = window.URL.createObjectURL(blob)
-      window.open(url)
+      let blob = new Blob([response.data], { type: 'text/csv' })
+      let link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = 'analysis.csv'
+      link.click()
     }
 
     const errorCallBack = (error) => {
