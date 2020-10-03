@@ -106,5 +106,9 @@ docker-compose up --build
 - Django Rest Framework
   - [Docs](https://www.django-rest-framework.org/)
   - [Overview](http://www.cdrf.co/)
+- Vue
+  - [Docs](https://vuejs.org/)
+  - [Vuetify](https://vuetifyjs.com/en/)
+  - [Vue Router](https://router.vuejs.org/)
 - [Elastic Search](https://github.com/deviantony/docker-elk)
   - [Elastic Search Py](https://github.com/elastic/elasticsearch-py)
