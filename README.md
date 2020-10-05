@@ -42,6 +42,9 @@ This project will have the analysis of the **Payment** service of the Robot Shop
 ### Robot Shop
 
 ```sh
+# Go to robot shop's folder
+cd robot_shop
+
 # Give permission to script.
 chmod +x robot_shop.sh
 
@@ -55,6 +58,9 @@ chmod +x robot_shop.sh
 - Installing
 
 ```sh
+# Go to elastic search's folder
+cd elastic_search
+
 # Give permission to script.
 chmod +x elastic_search.sh
 
